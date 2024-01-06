@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Calculator</title>
+  </head>
+  <body>
+    <main>
+      <div class="container result">
+        <p class="expression">8x4+2</p>
+      </div>
+      <div class="container buttons">
+        <button data-value="7" class="button">7</button>
+        <button data-value="8" class="button">8</button>
+        <button data-value="9" class="button">9</button>
+        <button data-value="4" class="button">4</button>
+        <button data-value="5" class="button">5</button>
+        <button data-value="6" class="button">6</button>
+        <button data-value="1" class="button">1</button>
+        <button data-value="2" class="button">2</button>
+        <button data-value="3" class="button">3</button>
+        <button data-value="0" class="button">0</button>
+        <button data-value="." class="button">.</button>
+        <button data-value="+" class="button">+</button>
+        <button data-value="-" class="button">-</button>
+        <button data-value="*" class="button">x</button>
+        <button data-value="/" class="button">/</button>
+        <button class="button delete">DEL</button>
+        <button class="button reset">RESET</button>
+        <button class="button equal">=</button>
+      </div>
+    </main>
+    <script>
+      const expressionP = document.querySelector(".expression");
+      const valueButton = document.querySelectorAll("[data-value]");
+      const resetButton = document.querySelector(".reset");
+      const deleteButton = document.querySelector(".delete");
+      const equalButton = document.querySelector(".equal");
+      const resultDiv = document.querySelector(".result");
+
+      let expression = "0";
+      let lastResult = "0";
+      let lastInput = "0";
+      let operatorArr = ["+", "-", "*", "/", "."];
+
+      expressionP.textContent = expression;
+
+      <!-- FIXME: Fix double decimal issue -->
+
+      valueButton.forEach((button) =>
+        button.addEventListener("click", (e) => {
+          const val = e.target.dataset.value; // get current button value
+
+          const invalidLastInput =
+            operatorArr.includes(lastInput) && operatorArr.includes(val); // if last input and current input is an operator, do nothing
+
+          if (invalidLastInput) return;
+
+          if (expression == "0") {
+            expression = val;
+          } else {
+            expression += val;
+          }
+          lastInput = val;
+
+          showExpression(expression);
+        })
+      );
+
+      deleteButton.addEventListener("click", () => {
+        expression = expression.toString().slice(0, -1);
+        expression.length !== 0
+          ? showExpression(expression)
+          : showExpression("0");
+      });
+
+      resetButton.addEventListener("click", () => {
+        expression = "0";
+        expressionP.textContent = 0;
+      });
+
+      equalButton.addEventListener("click", () => {
+        try {
+          const result = eval(expression);
+
+          if (result === Infinity) {
+            lastResult = 0;
+            expression = 0;
+          } else {
+            lastResult = result;
+            expression = result;
+          }
+          expressionP.textContent = lastResult.toString();
+        } catch (e) {
+          console.log(expression);
+          console.error(e);
+        }
+      });
+
+      function showExpression(expression) {
+        let formattedString = expression.replace(/\*/gi, "x");
+        formattedString = expression.replace(/(\+|\*|\/|-)/gm, " $1 ");
+
+        console.log(formattedString);
+
+        expressionP.textContent = formattedString;
+      }
+    </script>
+  </body>
+</html>

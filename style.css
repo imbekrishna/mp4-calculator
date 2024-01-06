@@ -1,0 +1,110 @@
+:root {
+  --primary-color: #3b4664;
+  --secondary-color: #647299;
+  --result-bg: #181f32;
+  --button-container: #252d44;
+  --button-bg: #eae3db;
+  --action-bg: #d13f30;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Inter", sans-serif;
+}
+
+main {
+  background-color: var(--primary-color);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 20px;
+  color: white;
+}
+
+.container {
+  width: 350px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.expression {
+  text-align: right;
+}
+
+.result {
+  background: var(--result-bg);
+  min-height: 100px;
+  font-size: clamp(1rem, 3vh, 4em);
+  font-weight: bold;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  /* letter-spacing: 8px; */
+}
+
+.buttons {
+  height: 300px;
+  background-color: var(--button-container);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.button {
+  background-color: var(--button-bg);
+  border-radius: 5px;
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: bold;
+  display: grid;
+  place-items: center;
+  border: none;
+}
+
+.reset,
+.delete {
+  font-size: 1.5rem;
+  color: white;
+  background-color: var(--primary-color);
+}
+
+.reset {
+  grid-column: 1 / span 2;
+}
+
+.delete {
+  grid-column: 4/ 4;
+  grid-row: 1/1;
+}
+
+.equal {
+  grid-column: 3 / span 2;
+  color: white;
+  background-color: var(--action-bg);
+}
+
+button[data-value="+"] {
+  grid-column: 4 / 5;
+  grid-row: 2/3;
+}
+button[data-value="-"] {
+  grid-column: 4 / 5;
+  grid-row: 3/4;
+}
+button[data-value="*"] {
+  grid-column: 4 / 5;
+  grid-row: 4/5;
+}
+button[data-value="."] {
+  grid-column: 1 / 2;
+  grid-row: 4/5;
+}
